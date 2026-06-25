@@ -19,6 +19,33 @@ or register a new one.
 > Hosted on Vercel (frontend), Render (backend), and Neon (Postgres). The full
 > stack also runs locally with `docker compose up`.
 
+## Features
+
+The five core flows from the brief:
+
+- **Ticket list** showing title, customer, status, priority and created date.
+- **Create ticket** form that validates the required fields and the email
+  format; new tickets always start as `open`.
+- **Status updates** from the details page, saved to the database with a success
+  or error toast.
+- **Ticket details** with the full description, customer info, priority, status
+  and timestamps.
+- **Filtering** by status and priority.
+
+On top of those I added several of the optional enhancements:
+
+- **Search** by title or customer name, **sorting** (newest, oldest, priority),
+  and **pagination** (server-side, with a total count).
+- A **Kanban board** with drag-and-drop between Open, In Progress and Resolved;
+  the new status persists across a refresh.
+- **Authentication** (email/password, JWT) so the live dashboard isn't open to
+  the world.
+- **Swagger/OpenAPI** docs, a one-command **Docker Compose** setup, a **deployed**
+  instance, and **CI** running both test suites on every push.
+
+Loading, empty and error states are handled throughout, the controls are
+keyboard accessible, and the main flows work on mobile and desktop.
+
 ## Tech stack
 
 | Layer    | Choice |
@@ -195,6 +222,10 @@ server/   FastAPI backend
   are mapped explicitly at the route boundary.
 - **One `Ticket` table.** Customers aren't modelled separately. Name and email
   live on the ticket, which is enough for this scope.
+- **Filtering, search, sort and pagination run on the server.** The API applies
+  them before counting and slicing, so the total stays accurate and the response
+  stays small as the data grows, rather than shipping every ticket to the browser
+  to filter there.
 - **Status updates happen on the details page** via an accessible select. The
   brief allows the control on the list or the details view; details keeps the list
   clean.
