@@ -2,15 +2,17 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import Filters from "@/components/Filters";
 import Spinner from "@/components/Spinner";
 import TicketList from "@/components/TicketList";
 import { ApiError, getTickets } from "@/lib/api";
-import type { Ticket } from "@/lib/types";
+import type { Ticket, TicketFilters } from "@/lib/types";
 
 type LoadState = "loading" | "error" | "ready";
 
 export default function HomePage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [filters, setFilters] = useState<TicketFilters>({});
   const [state, setState] = useState<LoadState>("loading");
   const [error, setError] = useState("");
 
@@ -18,13 +20,13 @@ export default function HomePage() {
     setState("loading");
     setError("");
     try {
-      setTickets(await getTickets());
+      setTickets(await getTickets(filters));
       setState("ready");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Something went wrong");
       setState("error");
     }
-  }, []);
+  }, [filters]);
 
   useEffect(() => {
     void load();
@@ -35,6 +37,8 @@ export default function HomePage() {
       <div className="page-head">
         <h1>Tickets</h1>
       </div>
+
+      <Filters filters={filters} onChange={setFilters} />
 
       {state === "loading" && <Spinner />}
 
