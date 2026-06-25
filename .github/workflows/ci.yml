@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    name: backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tickets
+          POSTGRES_PASSWORD: tickets
+          POSTGRES_DB: tickets
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tickets"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://tickets:tickets@localhost:5432/tickets
+      TEST_DATABASE_URL: postgresql+psycopg://tickets:tickets@localhost:5432/tickets_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync
+      - name: Lint
+        run: uv run ruff check .
+      - name: Create test database
+        run: PGPASSWORD=tickets psql -h localhost -U tickets -d tickets -c "CREATE DATABASE tickets_test;"
+      - name: Verify migrations apply
+        run: uv run alembic upgrade head
+      - name: Run tests
+        run: uv run pytest -q
