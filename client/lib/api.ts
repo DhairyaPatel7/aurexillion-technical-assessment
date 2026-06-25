@@ -1,7 +1,14 @@
-import type { NewTicket, Ticket, TicketFilters, TicketStatus } from "./types";
+import type { AuthResponse, AuthUser, NewTicket, Ticket, TicketFilters, TicketStatus } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 const TICKETS_URL = `${API_BASE}/api/v1/tickets`;
+const AUTH_URL = `${API_BASE}/api/v1/auth`;
+
+let authToken: string | null = null;
+
+export function setAuthToken(token: string | null) {
+  authToken = token;
+}
 
 export class ApiError extends Error {
   status: number;
@@ -30,12 +37,15 @@ async function parseError(response: Response): Promise<string> {
 }
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (authToken) headers.Authorization = `Bearer ${authToken}`;
+
   let response: Response;
   try {
     response = await fetch(url, {
-      headers: { "Content-Type": "application/json" },
       cache: "no-store",
       ...init,
+      headers: { ...headers, ...(init?.headers as Record<string, string> | undefined) },
     });
   } catch {
     throw new ApiError("Could not reach the server. Is the API running?", 0);
@@ -76,4 +86,22 @@ export function updateTicketStatus(id: number, status: TicketStatus): Promise<Ti
     method: "PATCH",
     body: JSON.stringify({ status }),
   });
+}
+
+export function register(email: string, password: string): Promise<AuthResponse> {
+  return request<AuthResponse>(`${AUTH_URL}/register`, {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export function login(email: string, password: string): Promise<AuthResponse> {
+  return request<AuthResponse>(`${AUTH_URL}/login`, {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export function getMe(): Promise<AuthUser> {
+  return request<AuthUser>(`${AUTH_URL}/me`);
 }

@@ -61,3 +61,15 @@ export const SORT_OPTIONS: { value: TicketSort; label: string }[] = [
   { value: "oldest", label: "Oldest" },
   { value: "priority", label: "Priority" },
 ];
+
+export interface AuthUser {
+  id: number;
+  email: string;
+  createdAt: string;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  tokenType: string;
+  user: AuthUser;
+}
