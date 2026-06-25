@@ -70,6 +70,21 @@ export default function TicketDetailsPage() {
 
       {state === "notfound" && (
         <div className="state">
+          <span className="state__icon" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+          </span>
           <p className="state__title">Ticket not found</p>
           <p className="state__hint">It may have been removed, or the link is incorrect.</p>
           <Link href="/" className="button">
@@ -91,7 +106,10 @@ export default function TicketDetailsPage() {
       {state === "ready" && ticket && (
         <article className="detail">
           <div className="detail__header">
-            <h2 className="detail__title">{ticket.title}</h2>
+            <div>
+              <span className="detail__id">#{ticket.id}</span>
+              <h2 className="detail__title">{ticket.title}</h2>
+            </div>
             <PriorityBadge priority={ticket.priority} />
           </div>
 
@@ -116,11 +134,11 @@ export default function TicketDetailsPage() {
             </div>
             <div>
               <dt>Created</dt>
-              <dd>{formatDateTime(ticket.createdAt)}</dd>
+              <dd className="mono">{formatDateTime(ticket.createdAt)}</dd>
             </div>
             <div>
               <dt>Last updated</dt>
-              <dd>{formatDateTime(ticket.updatedAt)}</dd>
+              <dd className="mono">{formatDateTime(ticket.updatedAt)}</dd>
             </div>
           </dl>
 

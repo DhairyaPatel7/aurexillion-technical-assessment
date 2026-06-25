@@ -10,7 +10,10 @@ export default function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
     <Link href={`/tickets/${ticket.id}`} className="ticket-card">
       <div className="ticket-card__main">
-        <h3 className="ticket-card__title">{ticket.title}</h3>
+        <div className="ticket-card__heading">
+          <span className="ticket-card__id">#{ticket.id}</span>
+          <h3 className="ticket-card__title">{ticket.title}</h3>
+        </div>
         <p className="ticket-card__customer">{ticket.customerName}</p>
       </div>
       <div className="ticket-card__meta">

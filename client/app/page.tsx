@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import Filters from "@/components/Filters";
-import Spinner from "@/components/Spinner";
+import Skeleton from "@/components/Skeleton";
 import TicketList from "@/components/TicketList";
 import { ApiError, getTickets } from "@/lib/api";
 import type { Ticket, TicketFilters } from "@/lib/types";
@@ -44,6 +44,11 @@ export default function HomePage() {
     <div>
       <div className="page-head">
         <h1>Tickets</h1>
+        {state === "ready" && (
+          <span className="page-head__count">
+            {tickets.length} {tickets.length === 1 ? "ticket" : "tickets"}
+          </span>
+        )}
       </div>
 
       <div className="controls">
@@ -58,10 +63,24 @@ export default function HomePage() {
         <Filters filters={filters} onChange={setFilters} />
       </div>
 
-      {state === "loading" && <Spinner />}
+      {state === "loading" && <Skeleton />}
 
       {state === "error" && (
         <div className="state state--error">
+          <span className="state__icon" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+            </svg>
+          </span>
           <p className="state__title">Unable to load tickets</p>
           <p className="state__hint">{error}</p>
           <button type="button" className="button" onClick={() => void load()}>
