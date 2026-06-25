@@ -21,30 +21,29 @@ or register a new one.
 
 ## Features
 
-The five core flows from the brief:
+### Core requirements
 
-- **Ticket list** showing title, customer, status, priority and created date.
-- **Create ticket** form that validates the required fields and the email
-  format; new tickets always start as `open`.
-- **Status updates** from the details page, saved to the database with a success
-  or error toast.
-- **Ticket details** with the full description, customer info, priority, status
-  and timestamps.
-- **Filtering** by status and priority.
+- [x] **Ticket list** showing title, customer, status, priority and created date
+- [x] **Create ticket** form that validates the required fields and the email format; new tickets always start as `open`
+- [x] **Update status** from the details page, persisted to the database, with success and error feedback
+- [x] **Ticket details** view with the full description, customer information, priority, status and timestamps
+- [x] **Filtering** by status and priority
 
-On top of those I added several of the optional enhancements:
+### Optional enhancements
 
-- **Search** by title or customer name, **sorting** (newest, oldest, priority),
-  and **pagination** (server-side, with a total count).
-- A **Kanban board** with drag-and-drop between Open, In Progress and Resolved;
-  the new status persists across a refresh.
-- **Authentication** (email/password, JWT) so the live dashboard isn't open to
-  the world.
-- **Swagger/OpenAPI** docs, a one-command **Docker Compose** setup, a **deployed**
-  instance, and **CI** running both test suites on every push.
+- [x] **Drag-and-drop Kanban board** across Open, In Progress and Resolved; the new status persists across a refresh
+- [x] **Search** tickets by title or customer name
+- [x] **Pagination and sorting** (newest, oldest, priority), both applied on the server
+- [x] **Docker Compose** setup for a one-command run
+- [x] **Authentication** with email and password (JWT access tokens, bcrypt hashing)
+- [x] **Swagger / OpenAPI** documentation at `/docs`
+- [x] **Deployment** to the cloud (Vercel, Render, Neon)
+- [x] **Additional automated tests** and a CI pipeline running both suites
+- [x] **Accessibility** improvements (keyboard-usable controls, labelled inputs, focus states)
+- [ ] **WebSocket live updates** (not implemented; it would mainly help once several agents use the board at once)
 
-Loading, empty and error states are handled throughout, the controls are
-keyboard accessible, and the main flows work on mobile and desktop.
+Loading, empty, success and error states are handled throughout, and the main
+flows work on mobile and desktop.
 
 ## Tech stack
 
@@ -65,7 +64,7 @@ docker compose up
 ```
 
 That starts Postgres, runs the database migrations, seeds a handful of sample
-tickets, and serves the API and the UI. Once it's up:
+tickets, and serves the API and the UI. Once it is up:
 
 - Web app: http://localhost:3000
 - API: http://localhost:8000
@@ -116,7 +115,7 @@ Then open http://localhost:3000.
 
 - PostgreSQL, accessed through SQLModel/SQLAlchemy.
 - The schema is managed with **Alembic migrations** (`alembic upgrade head`); the
-  app doesn't create tables on the fly.
+  application does not create tables on the fly.
 - Sample data (tickets + the demo user) is inserted by `python -m app.seed`,
   which is idempotent and only adds the rows that are missing.
 - With Docker, migrations and seeding run automatically on startup.
@@ -124,8 +123,8 @@ Then open http://localhost:3000.
 ## Running the tests
 
 The backend tests need a reachable Postgres server. They create the
-`tickets_test` database themselves if it isn't already there, so there's nothing
-to set up beyond the server:
+`tickets_test` database themselves if it is not already there, so there is
+nothing to set up beyond the server:
 
 ```bash
 docker compose up -d db   # or any local Postgres on localhost:5432
@@ -140,9 +139,16 @@ cd client
 npm test
 ```
 
-Between them the suites cover backend validation, ticket creation, status
-updates, form validation, and list rendering. Both run in CI (GitHub Actions) on
-every push.
+The brief asks for at least two meaningful tests. All five example areas it
+lists are covered, across 16 backend tests and 4 frontend tests:
+
+- [x] **Backend validation:** the API rejects a ticket without a title
+- [x] **Ticket creation:** a valid ticket is stored and defaults to `open`
+- [x] **Status update:** the `PATCH` endpoint saves the new status
+- [x] **Form validation:** the create form shows errors for invalid input
+- [x] **Data rendering:** the ticket list renders API data correctly
+
+Both suites run in CI (GitHub Actions) on every push.
 
 ## API
 
@@ -212,7 +218,7 @@ server/   FastAPI backend
 
 - **API versioning.** Endpoints live under `/api/v1` rather than the brief's
   literal `/api/tickets`. The brief allows a different route structure as long as
-  it's documented, and versioning keeps the response contract free to evolve
+  it is documented, and versioning keeps the response contract free to evolve
   without breaking clients.
 - **Extra `updated_at` field.** Beyond the required fields, tickets carry an
   `updated_at` timestamp (bumped on every change), which the details page shows
@@ -220,7 +226,7 @@ server/   FastAPI backend
 - **camelCase JSON, snake_case database.** The database columns are snake_case;
   the API speaks camelCase to read naturally in the TypeScript frontend. The two
   are mapped explicitly at the route boundary.
-- **One `Ticket` table.** Customers aren't modelled separately. Name and email
+- **One `Ticket` table.** Customers are not modelled separately. Name and email
   live on the ticket, which is enough for this scope.
 - **Filtering, search, sort and pagination run on the server.** The API applies
   them before counting and slicing, so the total stays accurate and the response
@@ -232,16 +238,16 @@ server/   FastAPI backend
 - **Authentication.** The dashboard is gated behind email/password login (JWT
   access tokens, bcrypt-hashed passwords). The brief lists auth as optional and
   defines no user model, but since this is **deployed live**, leaving it fully
-  open-ended didn't seem the right call, since anyone could create or modify
+  open-ended did not seem the right call, since anyone could create or modify
   tickets. Tickets are shared across all authenticated users (no per-user
   ownership), which keeps the single-dashboard model the brief describes.
 - **Hand-written CSS** instead of a component library, to keep the bundle small
   and the styling easy to read.
 - **Postgres over SQLite.** The brief accepts either. Postgres is the more
-  production-realistic choice, and Docker Compose runs it so there's nothing to
+  production-realistic choice, and Docker Compose runs it so there is nothing to
   install locally.
 
-## What I'd add with more time
+## Further enhancements
 
 - Per-user ticket ownership and roles. The current auth is shared-access.
 - WebSocket live updates, which mainly pay off once several agents use the board
