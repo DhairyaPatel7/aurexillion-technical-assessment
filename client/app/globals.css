@@ -139,11 +139,36 @@ h1 {
   margin-bottom: 20px;
 }
 
+.controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.search-input {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--text);
+  min-width: 240px;
+  flex: 1;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
 .filters {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 18px;
 }
 
 .filters__field {

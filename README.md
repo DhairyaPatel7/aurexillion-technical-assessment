@@ -164,10 +164,12 @@ db/       Postgres init (creates the test database)
 
 ## What I'd add with more time
 
-- A Kanban board with drag-and-drop status changes (the API already supports it).
-- A search box wired to the existing `?search=` parameter.
-- Pagination and sorting for larger ticket volumes.
-- Authentication and role-based access.
+- A Kanban board with drag-and-drop status changes.
+- Pagination and server-side sorting once ticket volumes grow — kept simple here
+  on purpose, since the dataset is small and the brief warns against
+  over-engineering.
+- Authentication and role-based access — deliberately left out: the brief has no
+  user model and lists it as optional, so adding it would be scope creep.
 - Optimistic UI updates with rollback, plus more frontend tests (details page,
   error paths).
 - An end-to-end test (Playwright) and a deployed demo.
