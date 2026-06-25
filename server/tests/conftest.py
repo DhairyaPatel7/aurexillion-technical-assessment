@@ -56,7 +56,7 @@ def session(engine):
 
 @pytest.fixture
 def client(session):
-    """Authenticated client — the auth dependency is stubbed so ticket tests stay focused."""
+    """Authenticated client. The auth dependency is stubbed so ticket tests stay focused."""
     app.dependency_overrides[get_session] = lambda: session
     app.dependency_overrides[get_current_user] = lambda: User(
         id=1, email="tester@example.com", hashed_password="x"

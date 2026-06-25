@@ -11,7 +11,7 @@ const sans = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-sans", displ
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Helpdesk — Support Tickets",
+  title: "Helpdesk · Support Tickets",
   description: "View, create, and update customer support tickets.",
 };
 
