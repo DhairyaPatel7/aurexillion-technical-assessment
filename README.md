@@ -243,6 +243,10 @@ server/   FastAPI backend
   ownership), which keeps the single-dashboard model the brief describes.
 - **Hand-written CSS** instead of a component library, to keep the bundle small
   and the styling easy to read.
+- **Product framing.** The app is presented as a small product called "Helpdesk",
+  with a matching logo and favicon, so the interface feels finished rather than
+  like a bare exercise. This is purely cosmetic and changes none of the required
+  behaviour.
 - **Postgres over SQLite.** The brief accepts either. Postgres is the more
   production-realistic choice, and Docker Compose runs it so there is nothing to
   install locally.
