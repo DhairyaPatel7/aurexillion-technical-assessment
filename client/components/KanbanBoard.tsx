@@ -70,7 +70,7 @@ export default function KanbanBoard({ tickets, onMove }: Props) {
                       <span className="board-card__id">#{ticket.id}</span>
                       <PriorityBadge priority={ticket.priority} />
                     </div>
-                    <Link href={`/tickets/${ticket.id}`} draggable={false}>
+                    <Link href={`/tickets/${ticket.id}`} draggable={false} prefetch={false}>
                       <h3 className="board-card__title">{ticket.title}</h3>
                     </Link>
                     <p className="board-card__customer">{ticket.customerName}</p>

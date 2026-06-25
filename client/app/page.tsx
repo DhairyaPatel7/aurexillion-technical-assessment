@@ -19,8 +19,9 @@ export default function HomePage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const next = searchText.trim() || undefined;
     const timer = setTimeout(() => {
-      setFilters((prev) => ({ ...prev, search: searchText.trim() || undefined }));
+      setFilters((prev) => (prev.search === next ? prev : { ...prev, search: next }));
     }, 300);
     return () => clearTimeout(timer);
   }, [searchText]);

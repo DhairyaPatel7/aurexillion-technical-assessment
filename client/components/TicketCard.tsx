@@ -8,7 +8,7 @@ import StatusBadge from "./StatusBadge";
 
 export default function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
-    <Link href={`/tickets/${ticket.id}`} className="ticket-card">
+    <Link href={`/tickets/${ticket.id}`} className="ticket-card" prefetch={false}>
       <div className="ticket-card__main">
         <div className="ticket-card__heading">
           <span className="ticket-card__id">#{ticket.id}</span>
