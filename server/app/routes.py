@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import case, or_
 from sqlmodel import Session, select
 
+from .auth import get_current_user
 from .database import get_session
 from .models import Ticket, utcnow
 from .schemas import (
@@ -13,7 +14,11 @@ from .schemas import (
     TicketUpdate,
 )
 
-router = APIRouter(prefix="/tickets", tags=["tickets"])
+router = APIRouter(
+    prefix="/tickets",
+    tags=["tickets"],
+    dependencies=[Depends(get_current_user)],
+)
 
 
 @router.get("", response_model=list[TicketRead])
