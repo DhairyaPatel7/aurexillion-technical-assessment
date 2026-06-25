@@ -80,3 +80,19 @@ def test_filter_by_multiple_statuses(client: TestClient):
     assert open_one["id"] in ids
     assert progress["id"] in ids
     assert resolved["id"] not in ids
+
+
+def test_sort_by_priority(client: TestClient):
+    low = client.post(
+        "/api/v1/tickets", json=make_payload(title="Low one", priority="low")
+    ).json()
+    high = client.post(
+        "/api/v1/tickets", json=make_payload(title="High one", priority="high")
+    ).json()
+    medium = client.post(
+        "/api/v1/tickets", json=make_payload(title="Medium one", priority="medium")
+    ).json()
+
+    response = client.get("/api/v1/tickets", params={"sort": "priority"})
+    ids = [ticket["id"] for ticket in response.json()]
+    assert ids.index(high["id"]) < ids.index(medium["id"]) < ids.index(low["id"])

@@ -1,10 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import or_
+from sqlalchemy import case, or_
 from sqlmodel import Session, select
 
 from .database import get_session
 from .models import Ticket, utcnow
-from .schemas import TicketCreate, TicketPriority, TicketRead, TicketStatus, TicketUpdate
+from .schemas import (
+    TicketCreate,
+    TicketPriority,
+    TicketRead,
+    TicketSort,
+    TicketStatus,
+    TicketUpdate,
+)
 
 router = APIRouter(prefix="/tickets", tags=["tickets"])
 
@@ -14,9 +21,10 @@ def list_tickets(
     status: list[TicketStatus] | None = Query(default=None),
     priority: list[TicketPriority] | None = Query(default=None),
     search: str | None = Query(default=None, description="Match title or customer name"),
+    sort: TicketSort = Query(default=TicketSort.newest),
     session: Session = Depends(get_session),
 ) -> list[TicketRead]:
-    statement = select(Ticket).order_by(Ticket.created_at.desc())
+    statement = select(Ticket)
 
     if status:
         statement = statement.where(Ticket.status.in_([item.value for item in status]))
@@ -27,6 +35,14 @@ def list_tickets(
         statement = statement.where(
             or_(Ticket.title.ilike(term), Ticket.customer_name.ilike(term))
         )
+
+    if sort is TicketSort.oldest:
+        statement = statement.order_by(Ticket.created_at.asc())
+    elif sort is TicketSort.priority:
+        rank = case({"high": 3, "medium": 2, "low": 1}, value=Ticket.priority, else_=0)
+        statement = statement.order_by(rank.desc(), Ticket.created_at.desc())
+    else:
+        statement = statement.order_by(Ticket.created_at.desc())
 
     tickets = session.exec(statement).all()
     return [TicketRead.from_ticket(ticket) for ticket in tickets]

@@ -19,6 +19,12 @@ class TicketPriority(StrEnum):
     high = "high"
 
 
+class TicketSort(StrEnum):
+    newest = "newest"
+    oldest = "oldest"
+    priority = "priority"
+
+
 def _require_non_blank(value: str | None) -> str | None:
     if value is None:
         return None
