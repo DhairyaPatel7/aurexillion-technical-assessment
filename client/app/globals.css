@@ -216,6 +216,29 @@ h1 {
 }
 
 /* Page head + controls */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 14px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.back-link:hover {
+  color: var(--text);
+}
+
+.back-link svg {
+  transition: transform 0.15s ease;
+}
+
+.back-link:hover svg {
+  transform: translateX(-2px);
+}
+
 .page-head {
   display: flex;
   align-items: center;

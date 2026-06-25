@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
+import BackLink from "@/components/BackLink";
 import PriorityBadge from "@/components/PriorityBadge";
 import Spinner from "@/components/Spinner";
 import StatusSelect from "@/components/StatusSelect";
@@ -59,11 +60,9 @@ export default function TicketDetailsPage() {
 
   return (
     <div>
+      <BackLink href="/">Back to tickets</BackLink>
       <div className="page-head">
         <h1>Ticket details</h1>
-        <Link href="/" className="button">
-          Back to tickets
-        </Link>
       </div>
 
       {state === "loading" && <Spinner />}

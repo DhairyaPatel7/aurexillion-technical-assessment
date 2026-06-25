@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import KanbanBoard from "@/components/KanbanBoard";
@@ -54,9 +53,6 @@ export default function BoardPage() {
     <div>
       <div className="page-head">
         <h1>Board</h1>
-        <Link href="/" className="button">
-          List view
-        </Link>
       </div>
 
       <p className="board__hint">Drag a ticket between columns to change its status.</p>
