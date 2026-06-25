@@ -129,3 +129,161 @@ h1 {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.ticket-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ticket-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s;
+}
+
+.ticket-card:hover {
+  border-color: #cdd2da;
+}
+
+.ticket-card__main {
+  min-width: 0;
+}
+
+.ticket-card__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.ticket-card__customer {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.ticket-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ticket-card__date {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge--status-open {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.badge--status-in_progress {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.badge--status-resolved {
+  background: #ecfdf3;
+  color: #15803d;
+}
+
+.badge--priority-low {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.badge--priority-medium {
+  background: #fefce8;
+  color: #a16207;
+}
+
+.badge--priority-high {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.state__title {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.state__hint {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.state--error .state__title {
+  color: var(--danger);
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 560px) {
+  .ticket-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ticket-card__meta {
+    flex-wrap: wrap;
+  }
+}
