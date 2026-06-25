@@ -52,8 +52,8 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 
 export function getTickets(filters: TicketFilters = {}): Promise<Ticket[]> {
   const params = new URLSearchParams();
-  if (filters.status) params.set("status", filters.status);
-  if (filters.priority) params.set("priority", filters.priority);
+  filters.status?.forEach((status) => params.append("status", status));
+  filters.priority?.forEach((priority) => params.append("priority", priority));
   if (filters.search) params.set("search", filters.search);
   const query = params.toString();
   return request<Ticket[]>(query ? `${TICKETS_URL}?${query}` : TICKETS_URL);

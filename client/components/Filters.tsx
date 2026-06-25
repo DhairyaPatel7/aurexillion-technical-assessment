@@ -1,55 +1,49 @@
 import {
-  PRIORITY_LABELS,
-  PRIORITY_ORDER,
-  STATUS_LABELS,
-  STATUS_ORDER,
+  PRIORITY_OPTIONS,
+  STATUS_OPTIONS,
   type TicketFilters,
   type TicketPriority,
   type TicketStatus,
 } from "@/lib/types";
+
+import FilterPills from "./FilterPills";
 
 interface Props {
   filters: TicketFilters;
   onChange: (filters: TicketFilters) => void;
 }
 
+function toggle<T>(current: T[] | undefined, value: T): T[] | undefined {
+  const list = current ?? [];
+  const next = list.includes(value) ? list.filter((item) => item !== value) : [...list, value];
+  return next.length > 0 ? next : undefined;
+}
+
 export default function Filters({ filters, onChange }: Props) {
   return (
     <div className="filters">
       <div className="filters__field">
-        <label htmlFor="filter-status">Status</label>
-        <select
-          id="filter-status"
-          value={filters.status ?? ""}
-          onChange={(event) =>
-            onChange({ ...filters, status: (event.target.value || undefined) as TicketStatus })
+        <span className="filters__label">Status</span>
+        <FilterPills
+          options={STATUS_OPTIONS}
+          selected={filters.status ?? []}
+          onToggle={(value: TicketStatus) =>
+            onChange({ ...filters, status: toggle(filters.status, value) })
           }
-        >
-          <option value="">All statuses</option>
-          {STATUS_ORDER.map((status) => (
-            <option key={status} value={status}>
-              {STATUS_LABELS[status]}
-            </option>
-          ))}
-        </select>
+          ariaLabel="Filter by status"
+        />
       </div>
 
       <div className="filters__field">
-        <label htmlFor="filter-priority">Priority</label>
-        <select
-          id="filter-priority"
-          value={filters.priority ?? ""}
-          onChange={(event) =>
-            onChange({ ...filters, priority: (event.target.value || undefined) as TicketPriority })
+        <span className="filters__label">Priority</span>
+        <FilterPills
+          options={PRIORITY_OPTIONS}
+          selected={filters.priority ?? []}
+          onToggle={(value: TicketPriority) =>
+            onChange({ ...filters, priority: toggle(filters.priority, value) })
           }
-        >
-          <option value="">All priorities</option>
-          {PRIORITY_ORDER.map((priority) => (
-            <option key={priority} value={priority}>
-              {PRIORITY_LABELS[priority]}
-            </option>
-          ))}
-        </select>
+          ariaLabel="Filter by priority"
+        />
       </div>
     </div>
   );

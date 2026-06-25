@@ -6,12 +6,12 @@ import { useCallback, useEffect, useState } from "react";
 
 import BackLink from "@/components/BackLink";
 import PriorityBadge from "@/components/PriorityBadge";
+import Segmented from "@/components/Segmented";
 import Spinner from "@/components/Spinner";
-import StatusSelect from "@/components/StatusSelect";
 import { useToast } from "@/components/ToastProvider";
 import { ApiError, getTicket, updateTicketStatus } from "@/lib/api";
 import { formatDateTime } from "@/lib/format";
-import type { Ticket, TicketStatus } from "@/lib/types";
+import { STATUS_OPTIONS, type Ticket, type TicketStatus } from "@/lib/types";
 
 type LoadState = "loading" | "error" | "notfound" | "ready";
 
@@ -113,11 +113,12 @@ export default function TicketDetailsPage() {
           </div>
 
           <div className="detail__status">
-            <label htmlFor="status">Status</label>
-            <StatusSelect
-              id="status"
+            <span className="detail__status-label">Status</span>
+            <Segmented
+              options={STATUS_OPTIONS}
               value={ticket.status}
               onChange={handleStatusChange}
+              ariaLabel="Ticket status"
               disabled={updating}
             />
           </div>

@@ -22,8 +22,8 @@ export interface NewTicket {
 }
 
 export interface TicketFilters {
-  status?: TicketStatus;
-  priority?: TicketPriority;
+  status?: TicketStatus[];
+  priority?: TicketPriority[];
   search?: string;
 }
 
@@ -41,3 +41,15 @@ export const PRIORITY_LABELS: Record<TicketPriority, string> = {
   medium: "Medium",
   high: "High",
 };
+
+export const STATUS_OPTIONS = STATUS_ORDER.map((value) => ({
+  value,
+  label: STATUS_LABELS[value],
+  tone: value,
+}));
+
+export const PRIORITY_OPTIONS = PRIORITY_ORDER.map((value) => ({
+  value,
+  label: PRIORITY_LABELS[value],
+  tone: value,
+}));

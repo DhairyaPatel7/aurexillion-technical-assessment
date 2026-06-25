@@ -3,9 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
+import Segmented from "@/components/Segmented";
 import { useToast } from "@/components/ToastProvider";
 import { ApiError, createTicket } from "@/lib/api";
-import { PRIORITY_LABELS, PRIORITY_ORDER, type NewTicket } from "@/lib/types";
+import { PRIORITY_OPTIONS, type NewTicket } from "@/lib/types";
 
 type FieldErrors = Partial<Record<keyof NewTicket, string>>;
 
@@ -135,18 +136,13 @@ export default function TicketForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="priority">Priority</label>
-        <select
-          id="priority"
+        <span className="field__label">Priority</span>
+        <Segmented
+          options={PRIORITY_OPTIONS}
           value={form.priority}
-          onChange={(event) => update("priority", event.target.value as NewTicket["priority"])}
-        >
-          {PRIORITY_ORDER.map((priority) => (
-            <option key={priority} value={priority}>
-              {PRIORITY_LABELS[priority]}
-            </option>
-          ))}
-        </select>
+          onChange={(value) => update("priority", value)}
+          ariaLabel="Priority"
+        />
       </div>
 
       <div className="form__actions">
