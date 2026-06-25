@@ -410,39 +410,27 @@ h1 {
 .segmented__item.is-active {
   background: var(--surface);
   color: var(--text);
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-sm);
 }
 
 .segmented__item.is-active.is-open {
   background: var(--open-bg);
-  color: var(--open-fg);
-  box-shadow: none;
-}
+  color: var(--open-fg);}
 .segmented__item.is-active.is-in_progress {
   background: var(--progress-bg);
-  color: var(--progress-fg);
-  box-shadow: none;
-}
+  color: var(--progress-fg);}
 .segmented__item.is-active.is-resolved {
   background: var(--resolved-bg);
-  color: var(--resolved-fg);
-  box-shadow: none;
-}
+  color: var(--resolved-fg);}
 .segmented__item.is-active.is-low {
   background: var(--low-bg);
-  color: var(--low-fg);
-  box-shadow: none;
-}
+  color: var(--low-fg);}
 .segmented__item.is-active.is-medium {
   background: var(--medium-bg);
-  color: var(--medium-fg);
-  box-shadow: none;
-}
+  color: var(--medium-fg);}
 .segmented__item.is-active.is-high {
   background: var(--high-bg);
-  color: var(--high-fg);
-  box-shadow: none;
-}
+  color: var(--high-fg);}
 
 .segmented__item:disabled {
   opacity: 0.55;
