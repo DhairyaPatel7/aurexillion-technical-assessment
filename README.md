@@ -6,6 +6,19 @@ tickets. Next.js + TypeScript on the front, FastAPI + PostgreSQL on the back.
 The whole thing runs with a single command via Docker, or each piece can be run
 on its own for development.
 
+## Live demo
+
+- **App:** https://aurexillion-technical-assessment.vercel.app
+- **API docs (Swagger):** https://aurexillion-api.onrender.com/docs
+
+Sign in with the seeded demo account — **`demo@aurexillion.com` / `demo12345`** —
+or register a new one.
+
+> The demo runs entirely on free tiers (Vercel + Render + Neon). The backend
+> **sleeps after ~15 minutes of inactivity**, so the **first request after idle can
+> take ~30–60s to wake** (a cold start); it's fast afterwards. For the snappiest
+> experience, run it locally with `docker compose up`.
+
 ## Tech stack
 
 | Layer    | Choice |
